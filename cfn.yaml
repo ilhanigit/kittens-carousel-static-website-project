@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  This CloudFormation template creates an EC2 instance for Kitten Carousel Static Website Project.
+  The instance is configured with a specific security group.
+  Author: Abraham
+  Creation Date: 12.07.2024
+  Version: 1.0
+  Notes: This template is designed for use in a production environment.
+
+Parameters:
+  myKeyPair:
+    Description: Choose the key pair
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: instancekey
+
+  myInstanceType:
+    Description: Choose the Instance Type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro 
+      - t2.nano
+      - t3.small
+
+  myLatestAmi:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64'
+
+Resources:
+  myInstance: 
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref myLatestAmi
+      InstanceType: !Ref myInstanceType
+      KeyName: !Ref myKeyPair
+      SecurityGroupIds: 
+        - !Ref mySecurityGp
+      Tags: 
+        - Key: Name
+          Value: !Sub Web Server of ${AWS::StackName}
+      UserData: 
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install httpd -y
+          systemctl start httpd
+          systemctl enable httpd
+          cd /var/www/html/
+          wget https://raw.githubusercontent.com/ilhanigit/kitttens/master/static-web/index.html
+          wget https://raw.githubusercontent.com/ilhanigit/kitttens/master/static-web/cat0.jpg
+          wget https://raw.githubusercontent.com/ilhanigit/kitttens/master/static-web/cat1.jpg
+          wget https://raw.githubusercontent.com/ilhanigit/kitttens/master/static-web/cat2.jpg
+          systemctl restart httpd
+
+  mySecurityGp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for kittens project
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          Description: Allows http connection from anywhere with an ipv4
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          Description: Allows ssh connection from only my ip
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 95.12.196.147/32
+      Tags:
+        - Key: Name
+          Value: abraham-kitten-sg
+
+Outputs:
+  WebSiteURL:
+    Description: URL of the deployed website
+    Value: 
+      !Sub 'http://${myInstance.PublicIp}'
+
+
+  
