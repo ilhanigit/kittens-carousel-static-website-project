@@ -10,40 +10,70 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style>
     body {
-      max-width: 600px;
+      font-family: 'Arial', sans-serif;
+      max-width: 800px;
       margin: auto;
+      background: linear-gradient(to right, #f5e0c3, #d8b5a5);
+      color: #4a3f35;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
 
     h2 {
-      margin-top: 100px;
-      margin-bottom: 50px;
-      margin-right: auto;
-      margin-left: auto;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 30px;
+      color: #b96e43;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     }
 
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-
-    }
-
-    .footnote {
-      color: rgba(0, 0, 255, 0.712);
+    .carousel-inner img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
     }
 
     .carousel {
-      height: 600px;
-      background-color: lightgreen;
-
+      background-color: #f4e4d4;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     }
 
+    .carousel-indicators li {
+      background-color: #b97a56;
+    }
+
+    .carousel-control {
+      color: #b97a56;
+    }
+
+    .carousel-control:hover,
+    .carousel-control:focus {
+      color: #a56445;
+    }
+
+    .glyphicon-chevron-left,
+    .glyphicon-chevron-right {
+      font-size: 32px;
+    }
+
+    .footnote {
+      margin-top: 30px;
+      text-align: center;
+      font-style: italic;
+      color: #a56551;
+    }
+
+    .footnote b {
+      color: #8c4e39;
+    }
   </style>
 </head>
 
 <body>
-
-  <h2> Project: Abraham's Kittens Carousel</h2>
+  <h2>Project: Abraham's Kittens Carousel</h2>
 
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -77,9 +107,7 @@
     </a>
   </div>
 
-
-  <p class="footnote"><i>This static website is deployed by <b> Abraham </b> on AWS EC2 Instance using AWS
-      Clouldformation Service.</i></p>
+  <p class="footnote"><i>This static website is deployed by <b>Abraham</b> on AWS EC2 Instance using AWS CloudFormation Service.</i></p>
 </body>
 
 </html>
